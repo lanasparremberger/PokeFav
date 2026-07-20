@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="src/imgs/pokebola.webp">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <link rel="stylesheet" href="src/style/style.css">
+</head>
+<body>
+    <header class="header-shell sticky top-0 z-40 backdrop-blur-xl border-b" style="border-color: var(--line)">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center gap-3">
+
+            <a href="index.html" class="group flex items-center gap-3 min-w-0">
+                <div class="pokeball"></div>
+                <div class="min-w-0">
+                    <h1 class="font-display font-extrabold text-xl sm:text-2xl tracking-tight leading-none truncate">
+                        Poke<span style="color: var(--pokedex-red)">Fav</span>
+                    </h1>
+                    <p class="logo-subtitle font-mono text-[10px] uppercase tracking-[0.2em]"
+                        style="color: var(--text-soft)">
+                        Pokédex pessoal
+                    </p>
+                </div>
+            </a>
+
+            <nav class="desktop-nav">
+                <ul class="flex items-center gap-1 text-sm font-medium">
+                    <li>
+                        <a href="#top"
+                            class="nav-link flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 duration-200">
+                            <i class="fa-solid fa-house"></i> Início
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#favoritos"
+                            class="nav-link flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 duration-200">
+                            <i class="fa-solid fa-heart"></i> Favoritos
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tipos"
+                            class="nav-link flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 duration-200">
+                            <i class="fa-solid fa-layer-group"></i> Tipos
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button id="theme-toggle" class="icon-btn" title="Alternar tema"
+                    aria-label="Alternar tema claro/escuro">
+                    <i id="theme-toggle-icon" class="fa-solid fa-sun"></i>
+                </button>
+
+                <button data-open-login
+                    class="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm duration-200 text-white"
+                    style="background: var(--pokedex-red)">
+                    <i class="fa-solid fa-right-to-bracket"></i> Entrar
+                </button>
+
+
+                <button id="hamburger-btn" class="hamburger-btn icon-btn" aria-label="Abrir menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- menu mobile -->
+        <div id="mobile-menu" class="lg:hidden border-t" style="border-color: var(--line)">
+
+            <ul class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-col gap-1 text-sm font-medium">
+                <li><button data-open-login class="icon-btn sm:hidden" title="Entrar" aria-label="Entrar">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                    </button></li>
+                <li><a href="#top" class="nav-link flex items-center gap-2 px-3 py-3 rounded-xl hover:bg-white/5"><i
+                            class="fa-solid fa-house"></i> Início</a></li>
+                <li><a href="#favoritos"
+                        class="nav-link flex items-center gap-2 px-3 py-3 rounded-xl hover:bg-white/5"><i
+                            class="fa-solid fa-heart"></i> Favoritos</a></li>
+                <li><a href="#tipos" class="nav-link flex items-center gap-2 px-3 py-3 rounded-xl hover:bg-white/5"><i
+                            class="fa-solid fa-layer-group"></i> Tipos</a></li>
+            </ul>
+        </div>
+    </header>
+    <main>
+        <div id="form-modal" class="w-full max-w-sm rounded-3xl p-6 sm:p-8 relative ">
+            <button id="form-close" class="absolute top-4 right-4 icon-btn" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center gap-3 mb-6">
+                <div class="pokeball"></div>
+                <h3 class="font-display text-2xl font-bold">Cadastrar</h3>
+            </div>
+        <form id="cad-form" method="post" action="back/" class="flex flex-col gap-4">
+                <label class="text-sm font-medium">
+                    Nome
+                    <input type="text" required placeholder="Cynthia"
+                        class="field w-full mt-1 rounded-xl px-4 py-3">
+                </label>
+                <label class="text-sm font-medium">
+                    Nome de usuário
+                    <input type="text" required placeholder="Campeã de Sinnoh"
+                        class="field w-full mt-1 rounded-xl px-4 py-3">
+                </label>
+                <label class="text-sm font-medium">
+                    E-mail
+                    <input type="email" required placeholder="voce@email.com"
+                        class="field w-full mt-1 rounded-xl px-4 py-3">
+                </label>
+                <label class="block text-sm font-medium text-gray-700">
+                    Senha
+                    <div class="relative mt-1">
+                        <!-- Campo de Senha -->
+                        <input type="password" id="senha" required placeholder="••••••••"
+                            class="field w-full rounded-xl px-4 py-3 pr-12 border border-gray-300 focus:outline-none">
+
+                        <!-- Botão com Ícone (Font Awesome) -->
+                        <button type="button" id="btn-toggle"
+                            class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i id="icone-olho" class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </label>
+                <button type="submit"
+                    class="text-white rounded-xl font-bold py-3 mt-2 flex items-center justify-center gap-2"
+                    style="background: var(--pokedex-red)">
+                    <i class="fa-solid fa-right-to-bracket"></i> Entrar
+                </button>
+                <a href="front/cadastro.html" class="text-xs text-center underline" style="color: var(--text-soft)">Não tem? Faça seu cadastro!</a>
+            </form>
+            </div>
+    </div>
+    </main>
+    <script src="src/script/script_index.js" defer></script>
+</body>
+</html>
