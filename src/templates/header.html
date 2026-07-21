@@ -1,0 +1,76 @@
+<!-- ============ HEADER ============ -->
+    <header class="header-shell sticky top-0 z-40 backdrop-blur-xl border-b" style="border-color: var(--line)">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center gap-3">
+
+            <a href="../index.html" class="group flex items-center gap-3 min-w-0">
+                <div class="pokeball"></div>
+                <div class="min-w-0">
+                    <h1 class="font-display font-extrabold text-xl sm:text-2xl tracking-tight leading-none truncate">
+                        Poke<span style="color: var(--pokedex-red)">Fav</span>
+                    </h1>
+                    <p class="logo-subtitle font-mono text-[10px] uppercase tracking-[0.2em]"
+                        style="color: var(--text-soft)">
+                        Pokédex pessoal
+                    </p>
+                </div>
+            </a>
+
+            <nav class="desktop-nav">
+                <ul class="flex items-center gap-1 text-sm font-medium">
+                    <li>
+                        <a href="#top"
+                            class="nav-link flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 duration-200">
+                            <i class="fa-solid fa-house"></i> Início
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#favoritos"
+                            class="nav-link flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 duration-200">
+                            <i class="fa-solid fa-heart"></i> Favoritos
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tipos"
+                            class="nav-link flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 duration-200">
+                            <i class="fa-solid fa-layer-group"></i> Tipos
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button id="theme-toggle" class="icon-btn" title="Alternar tema"
+                    aria-label="Alternar tema claro/escuro">
+                    <i id="theme-toggle-icon" class="fa-solid fa-sun"></i>
+                </button>
+
+                <button data-open-login
+                    class="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm duration-200 text-white"
+                    style="background: var(--pokedex-red)">
+                    <i class="fa-solid fa-right-to-bracket"></i> Entrar
+                </button>
+
+
+                <button id="hamburger-btn" class="hamburger-btn icon-btn" aria-label="Abrir menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- menu mobile -->
+        <div id="mobile-menu" class="lg:hidden border-t" style="border-color: var(--line)">
+
+            <ul class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-col gap-1 text-sm font-medium">
+                <li><button data-open-login class="icon-btn sm:hidden" title="Entrar" aria-label="Entrar">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                    </button></li>
+                <li><a href="#top" class="nav-link flex items-center gap-2 px-3 py-3 rounded-xl hover:bg-white/5"><i
+                            class="fa-solid fa-house"></i> Início</a></li>
+                <li><a href="#favoritos"
+                        class="nav-link flex items-center gap-2 px-3 py-3 rounded-xl hover:bg-white/5"><i
+                            class="fa-solid fa-heart"></i> Favoritos</a></li>
+                <li><a href="#tipos" class="nav-link flex items-center gap-2 px-3 py-3 rounded-xl hover:bg-white/5"><i
+                            class="fa-solid fa-layer-group"></i> Tipos</a></li>
+            </ul>
+        </div>
+    </header>
