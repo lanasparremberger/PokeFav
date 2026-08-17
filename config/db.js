@@ -1,20 +1,12 @@
-const mysql = require("mysql");
-var pool = mysql.createPool({
+var mysql = require('mysql');
+var con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
-    database: "pokedex"
+    database: "pokefav"
 });
 con.connect(function (err) {
     if (err) throw err;
     console.log("Conectado!");
-    var sql = "CREATE DATABASE pokedex"
-
-    con.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log("Base de dados criada");
-    });
     con.end();
 });
-
-exports.pool = pool;
