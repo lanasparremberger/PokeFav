@@ -3,6 +3,7 @@
 
 <head>
     <%- include('../templates/head'); %>
+    <link rel="stylesheet" href="/style/style.css">
 </head>
 
 <body>
@@ -17,7 +18,7 @@
                 <h3 class="font-display text-2xl font-bold">Cadastrar</h3>
             </div>
 
-            <form id="cad-form" enctype="multipart/form-data" method="post" action="../back/teste.js" class="flex flex-col gap-4">
+            <form id="cad-form" enctype="multipart/form-data" method="post" action="/cadastro" class="flex flex-col gap-4">
                 <label class="text-sm font-medium block">
                     Nome
                     <input name="nome" id="nome" type="text" required placeholder="Cynthia"

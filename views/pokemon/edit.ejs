@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokeFav · Editar listagem</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style>
+        :root {
+            --bg-app: #0b0d13;
+            --bg-panel: #12151d;
+            --bg-panel-2: #191d27;
+            --bg-panel-3: #1f2430;
+            --line: rgba(255, 255, 255, .09);
+            --text: #eef1f6;
+            --text-soft: #97a0b2;
+            --pokedex-red: #e3350d;
+            --pokedex-red-dim: rgba(227, 53, 13, .14);
+            --pokedex-gold: #ffcb05;
+            --danger-dim: rgba(227, 53, 13, .08);
+        }
+
+        * { box-sizing: border-box; }
+        body { background: var(--bg-app); color: var(--text); font-family: 'Inter', system-ui, sans-serif; }
+        .font-display { font-family: 'Poppins', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        .pokeball {
+            width: 30px; height: 30px; border-radius: 50%;
+            background: linear-gradient(var(--bg-app) 0 0) content-box,
+                conic-gradient(var(--pokedex-red) 0 50%, #f4f4f4 50% 100%);
+            border: 2px solid #14161c; position: relative; flex-shrink: 0;
+        }
+        .pokeball::after {
+            content: ''; position: absolute; inset: 0; margin: auto; width: 9px; height: 9px;
+            border-radius: 50%; background: #14161c; border: 2px solid var(--text-soft);
+        }
+        .pokeball::before {
+            content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 2px;
+            background: #14161c; transform: translateY(-1px); z-index: 1;
+        }
+
+        .icon-btn {
+            width: 42px; height: 42px; display: flex; align-items: center; justify-content: center;
+            border-radius: 999px; border: 1px solid var(--line); color: var(--text-soft);
+            background: var(--bg-panel-2); transition: .2s;
+        }
+        .icon-btn:hover { color: var(--text); border-color: var(--pokedex-gold); }
+
+        .header-shell { background: rgba(11, 13, 19, .78); }
+        .nav-link { color: var(--text-soft); }
+        .nav-link:hover, .nav-link.active { color: var(--text); }
+        .nav-link.active { background: var(--bg-panel-2); }
+
+        .field { background: var(--bg-panel-2); border: 1px solid var(--line); color: var(--text); }
+        .field::placeholder { color: #5c6478; }
+        .field:focus { outline: none; border-color: var(--pokedex-gold); box-shadow: 0 0 0 3px rgba(255, 203, 5, .12); }
+
+        .panel { background: var(--bg-panel); border: 1px solid var(--line); }
+
+        .btn-primary {
+            background: var(--pokedex-red); color: #fff; font-weight: 700;
+            transition: .2s; box-shadow: 0 8px 20px -8px rgba(227, 53, 13, .55);
+        }
+        .btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+        .btn-ghost { background: var(--bg-panel-2); border: 1px solid var(--line); color: var(--text); transition: .2s; }
+        .btn-ghost:hover { border-color: var(--pokedex-gold); }
+
+        .type-pill {
+            font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase;
+            letter-spacing: .06em; padding: 3px 9px; border-radius: 999px; color: #fff; font-weight: 500;
+        }
+
+        .poke-card { background: var(--bg-panel-2); border: 1px solid var(--line); transition: .18s; }
+        .poke-card:hover { border-color: var(--pokedex-gold); transform: translateY(-2px); }
+
+        .search-result { background: var(--bg-panel-3); border: 1px solid var(--line); transition: .15s; }
+        .search-result:hover { border-color: var(--pokedex-gold); background: var(--bg-panel-2); }
+
+        .cover-drop { border: 1.5px dashed var(--line); transition: .2s; }
+        .cover-drop:hover { border-color: var(--pokedex-gold); }
+
+        .remove-x {
+            width: 22px; height: 22px; border-radius: 999px; background: rgba(227, 53, 13, .9);
+            color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px;
+        }
+
+        .sticky-preview { position: sticky; top: 96px; }
+
+        .danger-zone { border: 1px solid rgba(227,53,13,.35); background: var(--danger-dim); }
+
+        #confirm-backdrop {
+            position: fixed; inset: 0; background: rgba(5,6,9,.7); backdrop-filter: blur(4px);
+            display: flex; align-items: center; justify-content: center; z-index: 60;
+            opacity: 0; pointer-events: none; transition: .2s;
+        }
+        #confirm-backdrop.open { opacity: 1; pointer-events: auto; }
+
+        @media (max-width: 1023px) { #mobile-menu { display: none; } #mobile-menu.open { display: block; } }
+        @media (min-width: 1024px) { .desktop-nav { display: block; } #mobile-menu, #hamburger-btn { display: none; } }
+        @media (max-width: 1023px) { .desktop-nav { display: none; } }
+    </style>
+</head>
+
+<body class="min-h-screen">
+
+    <!-- ============ HEADER ============ -->
+    <header class="header-shell sticky top-0 z-40 backdrop-blur-xl border-b" style="border-color: var(--line)">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center gap-3">
+            <a href="index.ejs" class="group flex items-center gap-3 min-w-0">
+                <div class="pokeball"></div>
+                <div class="min-w-0">
+                    <h1 class="font-display font-extrabold text-xl sm:text-2xl tracking-tight leading-none truncate">
+                        Poke<span style="color: var(--pokedex-red)">Fav</span>
+                    </h1>
+                    <p class="font-mono text-[10px] uppercase tracking-[0.2em]" style="color: var(--text-soft)">Pokédex pessoal</p>
+                </div>
+            </a>
+            <nav class="desktop-nav">
+                <ul class="flex items-center gap-1 text-sm font-medium">
+                    <li><a href="listagens.ejs" class="nav-link active flex items-center gap-2 px-4 py-2 rounded-full duration-200"><i class="fa-solid fa-list"></i> Minhas listagens</a></li>
+                    <li><a href="index.ejs#tipos" class="nav-link flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5 duration-200"><i class="fa-solid fa-layer-group"></i> Tipos</a></li>
+                </ul>
+            </nav>
+            <div class="flex items-center gap-2 sm:gap-3">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="Avatar" class="w-9 h-9 rounded-full border" style="border-color: var(--line); background: var(--bg-panel-2)">
+                <button id="hamburger-btn" class="hamburger-btn icon-btn" aria-label="Abrir menu"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="lg:hidden border-t" style="border-color: var(--line)">
+            <ul class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-col gap-1 text-sm font-medium">
+                <li><a href="listagens.ejs" class="nav-link flex items-center gap-2 px-3 py-3 rounded-xl hover:bg-white/5"><i class="fa-solid fa-list"></i> Minhas listagens</a></li>
+                <li><a href="index.ejs#tipos" class="nav-link flex items-center gap-2 px-3 py-3 rounded-xl hover:bg-white/5"><i class="fa-solid fa-layer-group"></i> Tipos</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+
+        <div class="mb-8">
+            <a href="listagem-show.html" class="font-mono text-xs uppercase tracking-[0.2em] flex items-center gap-2 mb-4" style="color: var(--text-soft)">
+                <i class="fa-solid fa-arrow-left"></i> Voltar para a listagem
+            </a>
+            <span class="font-mono text-xs uppercase tracking-[0.25em] px-3 py-1 rounded-full" style="background: var(--bg-panel-2); color: var(--pokedex-gold); border: 1px solid var(--line)">
+                <i class="fa-solid fa-pen mr-1"></i> Editando
+            </span>
+            <h2 class="font-display font-black text-3xl sm:text-4xl mt-4">Time principal de Kanto</h2>
+            <p class="mt-2" style="color: var(--text-soft)">Atualize as informações e os Pokémons desta listagem.</p>
+        </div>
+
+        <div class="grid lg:grid-cols-[1fr_360px] gap-8 items-start">
+
+            <form id="edit-form" class="space-y-6">
+
+                <section class="panel rounded-3xl p-5 sm:p-7">
+                    <h3 class="font-display text-lg font-bold mb-5 flex items-center gap-2">
+                        <span class="font-mono text-xs px-2 py-0.5 rounded" style="background: var(--bg-panel-2); color: var(--pokedex-gold)">01</span>
+                        Dados da listagem
+                    </h3>
+
+                    <div class="grid sm:grid-cols-[110px_1fr] gap-5">
+                        <label class="cover-drop rounded-2xl flex flex-col items-center justify-center gap-1 py-6 cursor-pointer text-center relative overflow-hidden" for="cover-input" style="background: linear-gradient(135deg, var(--pokedex-red), #a3220a)">
+                            <i class="fa-solid fa-arrows-rotate text-lg text-white/80"></i>
+                            <span class="font-mono text-[9px] uppercase tracking-wide text-white/80">Trocar</span>
+                            <input id="cover-input" type="file" class="hidden">
+                        </label>
+
+                        <div class="space-y-5">
+                            <label class="block text-sm font-medium">
+                                Nome da listagem
+                                <input id="listing-name" type="text" value="Time principal de Kanto"
+                                    class="field w-full mt-2 rounded-xl px-4 py-3">
+                            </label>
+                            <label class="block text-sm font-medium">
+                                Descrição
+                                <textarea id="listing-desc" rows="3"
+                                    class="field w-full mt-2 rounded-xl px-4 py-3 resize-none">Os Pokémons que eu levaria pra qualquer batalha em Kanto, sem pensar duas vezes.</textarea>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 flex items-center gap-3">
+                        <label class="flex items-center gap-2 text-sm cursor-pointer" style="color: var(--text-soft)">
+                            <input type="checkbox" checked class="accent-[var(--pokedex-red)] w-4 h-4">
+                            Listagem pública
+                        </label>
+                    </div>
+                </section>
+
+                <section class="panel rounded-3xl p-5 sm:p-7">
+                    <h3 class="font-display text-lg font-bold mb-1 flex items-center gap-2">
+                        <span class="font-mono text-xs px-2 py-0.5 rounded" style="background: var(--bg-panel-2); color: var(--pokedex-gold)">02</span>
+                        Pokémons da listagem
+                    </h3>
+                    <p class="text-sm mb-4" style="color: var(--text-soft)">Busque para adicionar mais ou remova quem não faz mais parte do time.</p>
+
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2" style="color: var(--text-soft)"></i>
+                        <input id="poke-search" type="text" placeholder="Buscar Pokémon (ex.: Gengar)" class="field w-full rounded-xl pl-11 pr-4 py-3">
+                    </div>
+
+                    <ul id="search-results" class="grid sm:grid-cols-2 gap-3 mt-4"></ul>
+
+                    <div class="border-t my-6" style="border-color: var(--line)"></div>
+
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="font-display font-bold text-sm uppercase tracking-wide" style="color: var(--text-soft)">Na listagem</h4>
+                        <span id="selected-count" class="font-mono text-xs px-2.5 py-1 rounded-full" style="background: var(--pokedex-red-dim); color: var(--pokedex-gold)">0 pokémons</span>
+                    </div>
+
+                    <ul id="selected-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></ul>
+                    <p id="selected-empty" class="italic text-sm py-6 text-center hidden" style="color: var(--text-soft)">
+                        <i class="fa-regular fa-face-smile mr-1"></i> Nenhum Pokémon nesta listagem ainda.
+                    </p>
+                </section>
+
+                <!-- zona de perigo -->
+                <section class="danger-zone rounded-3xl p-5 sm:p-7">
+                    <h3 class="font-display text-lg font-bold mb-1 flex items-center gap-2" style="color: var(--pokedex-red)">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Zona de perigo
+                    </h3>
+                    <p class="text-sm mb-4" style="color: var(--text-soft)">Excluir esta listagem é uma ação permanente e não pode ser desfeita.</p>
+                    <button type="button" id="open-delete" class="px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2" style="background: var(--pokedex-red); color: #fff">
+                        <i class="fa-solid fa-trash"></i> Excluir listagem
+                    </button>
+                </section>
+
+                <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 pt-2">
+                    <a href="listagem-show.html" class="btn-ghost text-center px-6 py-3 rounded-xl font-bold">Cancelar</a>
+                    <button type="submit" class="btn-primary px-8 py-3 rounded-xl font-bold flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-floppy-disk"></i> Salvar alterações
+                    </button>
+                </div>
+            </form>
+
+            <aside class="sticky-preview">
+                <div class="panel rounded-3xl p-5 overflow-hidden">
+                    <p class="font-mono text-[10px] uppercase tracking-[0.2em] mb-3" style="color: var(--text-soft)">
+                        <i class="fa-solid fa-eye mr-1"></i> Pré-visualização
+                    </p>
+                    <div class="rounded-2xl overflow-hidden" style="background: var(--bg-panel-2); border: 1px solid var(--line)">
+                        <div class="h-24 flex items-center justify-center" style="background: linear-gradient(135deg, var(--pokedex-red), #a3220a)">
+                            <i class="fa-solid fa-image text-2xl text-white/60"></i>
+                        </div>
+                        <div class="p-4">
+                            <h4 id="preview-name" class="font-display font-bold text-lg leading-tight">Time principal de Kanto</h4>
+                            <p id="preview-desc" class="text-sm mt-1 line-clamp-2" style="color: var(--text-soft)">Os Pokémons que eu levaria pra qualquer batalha em Kanto.</p>
+                            <div id="preview-sprites" class="flex -space-x-2 mt-4"></div>
+                            <p id="preview-count" class="font-mono text-[11px] mt-2" style="color: var(--text-soft)">0 pokémons</p>
+                        </div>
+                    </div>
+                    <div class="mt-5 space-y-2 font-mono text-[11px]" style="color: var(--text-soft)">
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-clock-rotate-left" style="color: var(--pokedex-gold)"></i> Última edição: hoje</p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- modal de confirmação de exclusão -->
+    <div id="confirm-backdrop">
+        <div class="panel rounded-3xl p-6 sm:p-7 w-full max-w-sm mx-4">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-4" style="background: var(--pokedex-red-dim); color: var(--pokedex-red)">
+                <i class="fa-solid fa-trash text-lg"></i>
+            </div>
+            <h3 class="font-display font-bold text-xl mb-2">Excluir listagem?</h3>
+            <p class="text-sm mb-6" style="color: var(--text-soft)">Isso vai apagar "Time principal de Kanto" e todos os Pokémons salvos nela. Essa ação não pode ser desfeita.</p>
+            <div class="flex gap-3">
+                <button id="cancel-delete" class="btn-ghost flex-1 py-2.5 rounded-xl font-bold text-sm">Cancelar</button>
+                <button id="confirm-delete" class="flex-1 py-2.5 rounded-xl font-bold text-sm text-white" style="background: var(--pokedex-red)">Sim, excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const POKEDEX = [
+            { id: 1, name: 'Bulbasaur', types: ['grass','poison'] },
+            { id: 4, name: 'Charmander', types: ['fire'] },
+            { id: 6, name: 'Charizard', types: ['fire','flying'] },
+            { id: 7, name: 'Squirtle', types: ['water'] },
+            { id: 25, name: 'Pikachu', types: ['electric'] },
+            { id: 94, name: 'Gengar', types: ['ghost','poison'] },
+            { id: 131, name: 'Lapras', types: ['water','ice'] },
+            { id: 143, name: 'Snorlax', types: ['normal'] },
+            { id: 150, name: 'Mewtwo', types: ['psychic'] },
+            { id: 448, name: 'Lucario', types: ['fighting','steel'] },
+        ];
+
+        const TYPE_COLORS = {
+            normal:'#A8A878', fire:'#F08030', water:'#6890F0', electric:'#F8D030',
+            grass:'#78C850', ice:'#98D8D8', fighting:'#C03028', poison:'#A040A0',
+            ground:'#E0C068', flying:'#A890F0', psychic:'#F85888', bug:'#A8B820',
+            rock:'#B8A038', ghost:'#705898', dragon:'#7038F8', dark:'#705848',
+            steel:'#B8B8D0', fairy:'#EE99AC'
+        };
+
+        const sprite = (id) => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+        const typePill = (t) => `<span class="type-pill" style="background:${TYPE_COLORS[t]}">${t}</span>`;
+
+        // pré-carregado como se viesse do banco de dados
+        const selected = new Map([6, 25, 143, 150].map(id => [id, POKEDEX.find(p => p.id === id)]));
+
+        const searchInput = document.getElementById('poke-search');
+        const resultsList = document.getElementById('search-results');
+        const selectedList = document.getElementById('selected-list');
+        const selectedEmpty = document.getElementById('selected-empty');
+        const selectedCount = document.getElementById('selected-count');
+        const previewSprites = document.getElementById('preview-sprites');
+        const previewCount = document.getElementById('preview-count');
+
+        function renderResults(query = '') {
+            const q = query.trim().toLowerCase();
+            const list = q
+                ? POKEDEX.filter(p => p.name.toLowerCase().includes(q) && !selected.has(p.id))
+                : POKEDEX.filter(p => !selected.has(p.id)).slice(0, 4);
+
+            resultsList.innerHTML = list.map(p => `
+                <li class="search-result rounded-xl p-3 flex items-center gap-3 cursor-pointer" data-add="${p.id}">
+                    <img src="${sprite(p.id)}" class="w-11 h-11" alt="${p.name}">
+                    <div class="min-w-0 flex-1">
+                        <p class="font-semibold text-sm truncate">${p.name}</p>
+                        <div class="flex gap-1 mt-1">${p.types.map(typePill).join('')}</div>
+                    </div>
+                    <i class="fa-solid fa-circle-plus" style="color: var(--pokedex-gold)"></i>
+                </li>
+            `).join('') || `<li class="col-span-2 text-sm italic py-4 text-center" style="color: var(--text-soft)">Nenhum resultado.</li>`;
+        }
+
+        function renderSelected() {
+            const items = [...selected.values()];
+            selectedEmpty.classList.toggle('hidden', items.length > 0);
+            selectedCount.textContent = `${items.length} pokémon${items.length === 1 ? '' : 's'}`;
+            previewCount.textContent = `${items.length} pokémon${items.length === 1 ? '' : 's'}`;
+
+            selectedList.innerHTML = items.map(p => `
+                <li class="poke-card rounded-xl p-3 flex items-center gap-3 relative">
+                    <img src="${sprite(p.id)}" class="w-12 h-12" alt="${p.name}">
+                    <div class="min-w-0 flex-1">
+                        <p class="font-semibold text-sm truncate">${p.name}</p>
+                        <div class="flex gap-1 mt-1 flex-wrap">${p.types.map(typePill).join('')}</div>
+                    </div>
+                    <button type="button" class="remove-x" data-remove="${p.id}" aria-label="Remover ${p.name}">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </li>
+            `).join('');
+
+            previewSprites.innerHTML = items.slice(0, 6).map(p => `
+                <img src="${sprite(p.id)}" class="w-9 h-9 rounded-full border-2" style="border-color: var(--bg-panel-2); background: var(--bg-panel-3)" alt="${p.name}">
+            `).join('') || `<span class="text-xs italic" style="color: var(--text-soft)">Sem pokémons ainda</span>`;
+        }
+
+        searchInput.addEventListener('input', (e) => renderResults(e.target.value));
+        resultsList.addEventListener('click', (e) => {
+            const el = e.target.closest('[data-add]');
+            if (!el) return;
+            const id = Number(el.dataset.add);
+            selected.set(id, POKEDEX.find(x => x.id === id));
+            renderResults(searchInput.value);
+            renderSelected();
+        });
+        selectedList.addEventListener('click', (e) => {
+            const el = e.target.closest('[data-remove]');
+            if (!el) return;
+            selected.delete(Number(el.dataset.remove));
+            renderResults(searchInput.value);
+            renderSelected();
+        });
+
+        const nameInput = document.getElementById('listing-name');
+        const descInput = document.getElementById('listing-desc');
+        nameInput.addEventListener('input', () => { document.getElementById('preview-name').textContent = nameInput.value || 'Nome da listagem'; });
+        descInput.addEventListener('input', () => { document.getElementById('preview-desc').textContent = descInput.value || 'Sua descrição aparecerá aqui.'; });
+
+        document.getElementById('edit-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Protótipo: aqui as alterações seriam salvas.');
+        });
+
+        const backdrop = document.getElementById('confirm-backdrop');
+        document.getElementById('open-delete').addEventListener('click', () => backdrop.classList.add('open'));
+        document.getElementById('cancel-delete').addEventListener('click', () => backdrop.classList.remove('open'));
+        document.getElementById('confirm-delete').addEventListener('click', () => {
+            alert('Protótipo: aqui a listagem seria excluída.');
+            backdrop.classList.remove('open');
+        });
+
+        document.getElementById('hamburger-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('open');
+        });
+
+        renderResults();
+        renderSelected();
+    </script>
+</body>
+</html>
