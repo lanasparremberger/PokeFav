@@ -11,157 +11,160 @@
     <canvas id="bg-canvas"></canvas>
 
     <!-- ============ HEADER ============ -->
-   <%- include('templates/header'); %>
+    <%- include('templates/header'); %>
 
-    <!-- ============ HERO ============ -->
-    <section id="top"
-        class="relative-content max-w-6xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20 pb-20 sm:pb-24 flex flex-col items-center text-center overflow-hidden">
-        <div class="radar-sweep"></div>
+        <!-- ============ HERO ============ -->
+        <section id="top"
+            class="relative-content max-w-6xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20 pb-20 sm:pb-24 flex flex-col items-center text-center overflow-hidden">
+            <div class="radar-sweep"></div>
 
-        <span class="relative-content font-mono text-xs uppercase tracking-[0.3em] mb-4"
-            style="color: var(--pokedex-gold)">
-            <i class="fa-solid fa-satellite-dish mr-2"></i>Powered by PokéAPI
-        </span>
+            <span class="relative-content font-mono text-xs uppercase tracking-[0.3em] mb-4"
+                style="color: var(--pokedex-gold)">
+                <i class="fa-solid fa-satellite-dish mr-2"></i>Powered by PokéAPI
+            </span>
 
-        <h2
-            class="relative-content hero-title font-display font-black text-4xl sm:text-5xl md:text-6xl leading-tight max-w-3xl">
-            Monte sua coleção<br> de Pokémons favoritos
-        </h2>
+            <h2
+                class="relative-content hero-title font-display font-black text-4xl sm:text-5xl md:text-6xl leading-tight max-w-3xl">
+                Monte sua coleção<br> de Pokémons favoritos
+            </h2>
 
-        <p class="relative-content mt-5 max-w-xl text-base sm:text-lg" style="color: var(--text-soft)">
-            Busque, salve e explore. Conheça as 18 seções de tipo — de Fogo a Fada — com forças, fraquezas e
-            resistências reais.
-        </p>
-
-        <div class="relative-content hero-actions mt-8 flex gap-4 w-full sm:w-auto justify-center">
-            <a href="#favoritos"
-                class="text-white px-7 py-3 rounded-xl font-bold duration-200 flex items-center justify-center gap-2 shadow-lg"
-                style="background: var(--pokedex-red)">
-                <i class="fa-solid fa-heart"></i> Ver favoritos
-            </a>
-            <a href="#tipos"
-                class="border px-7 py-3 rounded-xl font-bold duration-200 flex items-center justify-center gap-2"
-                style="border-color: var(--line); background: var(--bg-panel-2)">
-                <i class="fa-solid fa-layer-group"></i> Explorar tipos
-            </a>
-        </div>
-    </section>
-
-    <main class="relative-content max-w-6xl mx-auto px-4 sm:px-6 space-y-14 sm:space-y-16 pb-24">
-
-        <!-- ============ FAVORITOS ============ -->
-        <section id="favoritos" class="reveal rounded-3xl shadow-2xl p-5 sm:p-8"
-            style="background: var(--bg-panel); border: 1px solid var(--line)">
-
-            <div class="flex items-center gap-3 mb-2">
-                <i class="fa-solid fa-star text-xl sm:text-2xl" style="color: var(--pokedex-gold)"></i>
-                <h2 class="font-display text-2xl sm:text-3xl font-bold">Lista de Pokémons Favoritos</h2>
-            </div>
-            <p class="mb-6" style="color: var(--text-soft)">Seus Pokémons salvos ficam guardados neste navegador.</p>
-
-            <ul id="favorite-pokemon-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-2"></ul>
-            <p id="favorites-empty" class="italic text-sm py-4" style="color: var(--text-soft)">
-                <i class="fa-regular fa-face-smile mr-1"></i> Nenhum favorito ainda. Adicione um abaixo!
+            <p class="relative-content mt-5 max-w-xl text-base sm:text-lg" style="color: var(--text-soft)">
+                Busque, salve e explore. Conheça as 18 seções de tipo — de Fogo a Fada — com forças, fraquezas e
+                resistências reais.
             </p>
 
-            <div class="border-t my-8" style="border-color: var(--line)"></div>
-
-            <h3 class="font-display text-lg sm:text-xl font-bold mb-4 flex items-center gap-2">
-                <i class="fa-solid fa-magnifying-glass" style="color: var(--pokedex-red)"></i> Escolha seu Pokémon
-                favorito
-            </h3>
-
-            <form id="pokemon-form" class="flex gap-4">
-                <input type="text" id="pokemon-name" placeholder="Ex.: Pikachu"
-                    class="field flex-1 rounded-xl px-4 py-3 duration-200 placeholder:font-normal">
-                <button type="submit"
-                    class="text-white px-8 rounded-xl font-bold duration-200 flex items-center justify-center gap-2 py-3 sm:py-0"
+            <div class="relative-content hero-actions mt-8 flex gap-4 w-full sm:w-auto justify-center">
+                <a href="#favoritos"
+                    class="text-white px-7 py-3 rounded-xl font-bold duration-200 flex items-center justify-center gap-2 shadow-lg"
                     style="background: var(--pokedex-red)">
-                    <span id="add-btn-label"><i class="fa-solid fa-plus"></i> Adicionar</span>
-                </button>
-            </form>
-            <p id="pokemon-form-error" class="text-red-400 text-sm mt-3 hidden"><i
-                    class="fa-solid fa-circle-exclamation mr-1"></i><span></span></p>
-
-            <ul id="pokemon-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8"></ul>
+                    <i class="fa-solid fa-heart"></i> Ver favoritos
+                </a>
+                <a href="#tipos"
+                    class="border px-7 py-3 rounded-xl font-bold duration-200 flex items-center justify-center gap-2"
+                    style="border-color: var(--line); background: var(--bg-panel-2)">
+                    <i class="fa-solid fa-layer-group"></i> Explorar tipos
+                </a>
+            </div>
         </section>
 
-        <!-- ============ TIPOS ============ -->
-        <section id="tipos" class="reveal">
-            <div class="flex items-center gap-3 mb-2">
-                <i class="fa-solid fa-layer-group text-xl sm:text-2xl" style="color: var(--pokedex-red)"></i>
-                <h2 class="font-display text-2xl sm:text-3xl font-bold">Os 18 Tipos de Pokémon</h2>
-            </div>
-            <p class="mb-8" style="color: var(--text-soft)">Clique em um tipo para abrir a página completa com
-                características, forças e fraquezas.</p>
+        <main class="relative-content max-w-6xl mx-auto px-4 sm:px-6 space-y-14 sm:space-y-16 pb-24">
 
-            <ul id="type-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4"></ul>
-        </section>
+            <!-- ============ FAVORITOS ============ -->
+            <section id="favoritos" class="reveal rounded-3xl shadow-2xl p-5 sm:p-8"
+                style="background: var(--bg-panel); border: 1px solid var(--line)">
 
-        <footer class="text-center text-sm pt-8 border-t" style="color: var(--text-soft); border-color: var(--line)">
-            Dados fornecidos por <a href="https://pokeapi.co" target="_blank" style="color: var(--pokedex-gold)"
-                class="hover:underline">PokéAPI</a> ·
-            Feito com <i class="fa-solid fa-heart" style="color: var(--pokedex-red)"></i> por PokeFav
-        </footer>
-    </main>
+                <div class="flex items-center gap-3 mb-2">
+                    <i class="fa-solid fa-star text-xl sm:text-2xl" style="color: var(--pokedex-gold)"></i>
+                    <h2 class="font-display text-2xl sm:text-3xl font-bold">Lista de Pokémons Favoritos</h2>
+                </div>
+                <p class="mb-6" style="color: var(--text-soft)">Seus Pokémons salvos ficam guardados neste navegador.
+                </p>
 
-    <!-- ============ TYPE FULL-PAGE OVERLAY ============ -->
-    <div id="type-page" aria-hidden="true">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 py-10">
-            <button id="type-page-close" class="flex items-center gap-2 duration-200 mb-8"
-                style="color: var(--text-soft)">
-                <i class="fa-solid fa-arrow-left"></i> Voltar
-            </button>
+                <ul id="favorite-pokemon-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-2"></ul>
+                <p id="favorites-empty" class="italic text-sm py-4" style="color: var(--text-soft)">
+                    <i class="fa-regular fa-face-smile mr-1"></i> Nenhum favorito ainda. Adicione um abaixo!
+                </p>
 
-            <div id="type-page-content">
-                <!-- injected by JS -->
-            </div>
-        </div>
-    </div>
+                <div class="border-t my-8" style="border-color: var(--line)"></div>
 
-    <!-- ============ LOGIN MODAL ============ -->
-    <div id="login-backdrop">
-        <div id="login-modal" class="w-full max-w-sm rounded-3xl p-6 sm:p-8 relative">
-            <button id="login-close" class="absolute top-4 right-4 icon-btn" aria-label="Fechar">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+                <h3 class="font-display text-lg sm:text-xl font-bold mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-magnifying-glass" style="color: var(--pokedex-red)"></i> Escolha seu Pokémon
+                    favorito
+                </h3>
 
-            <div class="flex items-center gap-3 mb-6">
-                <div class="pokeball"></div>
-                <h3 class="font-display text-2xl font-bold">Entrar</h3>
-            </div>
+                <form id="pokemon-form" class="flex gap-4">
+                    <input type="text" id="pokemon-name" placeholder="Ex.: Pikachu"
+                        class="field flex-1 rounded-xl px-4 py-3 duration-200 placeholder:font-normal">
+                    <button type="submit"
+                        class="text-white px-8 rounded-xl font-bold duration-200 flex items-center justify-center gap-2 py-3 sm:py-0"
+                        style="background: var(--pokedex-red)">
+                        <span id="add-btn-label"><i class="fa-solid fa-plus"></i> Adicionar</span>
+                    </button>
+                </form>
+                <p id="pokemon-form-error" class="text-red-400 text-sm mt-3 hidden"><i
+                        class="fa-solid fa-circle-exclamation mr-1"></i><span></span></p>
 
-            <form id="login-form" method="post" action="back/" class="flex flex-col gap-4">
-                <label class="text-sm font-medium">
-                    E-mail
-                    <input type="email" required placeholder="voce@email.com"
-                        class="field w-full mt-1 rounded-xl px-4 py-3">
-                </label>
-                <label class="block text-sm font-medium text-gray-700">
-                    Senha
-                    <div class="relative mt-1">
-                        <!-- Campo de Senha -->
-                        <input type="password" id="senha" required placeholder="••••••••"
-                            class="field w-full rounded-xl px-4 py-3 pr-12 border border-gray-300 focus:outline-none">
+                <ul id="pokemon-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8"></ul>
+            </section>
 
-                        <!-- Botão com Ícone (Font Awesome) -->
-                        <button type="button" id="btn-toggle"
-                            class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-500 hover:text-gray-700 focus:outline-none">
-                            <i id="icone-olho" class="fas fa-eye"></i>
-                        </button>
-                    </div>
-                </label>
-                <button type="submit"
-                    class="text-white rounded-xl font-bold py-3 mt-2 flex items-center justify-center gap-2"
-                    style="background: var(--pokedex-red)">
-                    <i class="fa-solid fa-right-to-bracket"></i> Entrar
+            <!-- ============ TIPOS ============ -->
+            <section id="tipos" class="reveal">
+                <div class="flex items-center gap-3 mb-2">
+                    <i class="fa-solid fa-layer-group text-xl sm:text-2xl" style="color: var(--pokedex-red)"></i>
+                    <h2 class="font-display text-2xl sm:text-3xl font-bold">Os 18 Tipos de Pokémon</h2>
+                </div>
+                <p class="mb-8" style="color: var(--text-soft)">Clique em um tipo para abrir a página completa com
+                    características, forças e fraquezas.</p>
+
+                <ul id="type-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4"></ul>
+            </section>
+
+            <footer class="text-center text-sm pt-8 border-t"
+                style="color: var(--text-soft); border-color: var(--line)">
+                Dados fornecidos por <a href="https://pokeapi.co" target="_blank" style="color: var(--pokedex-gold)"
+                    class="hover:underline">PokéAPI</a> ·
+                Feito com <i class="fa-solid fa-heart" style="color: var(--pokedex-red)"></i> por PokeFav
+            </footer>
+        </main>
+
+        <!-- ============ TYPE FULL-PAGE OVERLAY ============ -->
+        <div id="type-page" aria-hidden="true">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 py-10">
+                <button id="type-page-close" class="flex items-center gap-2 duration-200 mb-8"
+                    style="color: var(--text-soft)">
+                    <i class="fa-solid fa-arrow-left"></i> Voltar
                 </button>
-                <a href="usuario/cadastro.ejs" class="text-xs text-center underline" style="color: var(--text-soft)">Não tem? Faça seu cadastro!</a>
-            </form>
-        </div>
-    </div>
 
-    <script src="/script/script_index.js" defer></script>
+                <div id="type-page-content">
+                    <!-- injected by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ LOGIN MODAL ============ -->
+        <div id="login-backdrop">
+            <div id="login-modal" class="w-full max-w-sm rounded-3xl p-6 sm:p-8 relative">
+                <button id="login-close" class="absolute top-4 right-4 icon-btn" aria-label="Fechar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="pokeball"></div>
+                    <h3 class="font-display text-2xl font-bold">Entrar</h3>
+                </div>
+
+                <form id="login-form" method="post" action="back/" class="flex flex-col gap-4">
+                    <label class="text-sm font-medium">
+                        E-mail
+                        <input type="email" required placeholder="voce@email.com"
+                            class="field w-full mt-1 rounded-xl px-4 py-3">
+                    </label>
+                    <label class="block text-sm font-medium text-gray-700">
+                        Senha
+                        <div class="relative mt-1">
+                            <!-- Campo de Senha -->
+                            <input type="password" id="senha" required placeholder="••••••••"
+                                class="field w-full rounded-xl px-4 py-3 pr-12 border border-gray-300 focus:outline-none">
+
+                            <!-- Botão com Ícone (Font Awesome) -->
+                            <button type="button" id="btn-toggle"
+                                class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-500 hover:text-gray-700 focus:outline-none">
+                                <i id="icone-olho" class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </label>
+                    <button type="submit"
+                        class="text-white rounded-xl font-bold py-3 mt-2 flex items-center justify-center gap-2"
+                        style="background: var(--pokedex-red)">
+                        <i class="fa-solid fa-right-to-bracket"></i> Entrar
+                    </button>
+                    <a href="usuario/cadastro.ejs" class="text-xs text-center underline"
+                        style="color: var(--text-soft)">Não tem? Faça seu cadastro!</a>
+                </form>
+            </div>
+        </div>
+
+        <script src="/script/script_index.js" defer></script>
 
 </body>
 
