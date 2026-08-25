@@ -28,17 +28,63 @@ con.connect(function (err) {
     console.log("Conectado!");
 });
 app.post('/cadastro', function (req, res) {
-    bcrypt.hash(req.body['senha'], saltRounds, function (err, hash) {
-        var sql = "INSERT INTO usuario (nome, nome_usuario, email, senha, imagem_usuario, tipo_fav) VALUES ?";
-        var values = [
-            [req.body['nome'], req.body['nome_usuario'], req.body['email'], hash, req.body['imagem_usuario'], req.body['tipo_fav']]
-        ];
-        con.query(sql, [values], function (err, result) {
+
+    var form = new formidable.IncomingForm();
+
+    form.parse(req, (err, fields, files) => {
+
+        if (err) throw err;
+
+        var oldpath = files.imagem_usuario[0].filepath;
+
+        var ext = path.extname(files.imagem_usuario[0].originalFilename);
+
+        var nomeimg = files.imagem_usuario[0].newFilename + ext;
+
+        var newpath = path.join(
+            __dirname,
+            'public/upload/',
+            nomeimg
+        );
+
+        fs.rename(oldpath, newpath, function (err) {
+
             if (err) throw err;
-            console.log("Numero de registros inseridos: " + result.affectedRows);
+
         });
+
+        bcrypt.hash(fields['senha'][0], saltRounds, function (err, hash) {
+
+            if (err) throw err;
+
+            var sql = "INSERT INTO usuario (nome, nome_usuario, email, senha, imagem_usuario, tipo_fav) VALUES ?";
+
+            var values = [[
+                fields['nome'][0],
+                fields['nome_usuario'][0],
+                fields['email'][0],
+                hash,
+                nomeimg,
+                fields['tipo_favorito'][0]
+            ]];
+
+            con.query(sql, [values], function (err, result) {
+
+                if (err) throw err;
+
+                console.log(
+                    "Numero de registros inseridos: " +
+                    result.affectedRows
+                );
+
+                res.redirect('/login');
+
+            });
+
+        });
+
     });
-    res.redirect('/login');
+
 });
 
 app.get('/cadastro', function (req, res) {
@@ -108,6 +154,38 @@ app.get('/adicionar', function (req, res) {
 app.get('/', function (req, res) {
     res.render('index.ejs');
 });
+
+app.get('/listagem', function (req, res) {
+    var sql = "SELECT * FROM lista"
+    con.query(sql, function (err, result, fields) {
+        if (err) throw err;
+        res.render('pokemon/show.ejs', { dadosLista: result })
+    });
+
+});
+app.post('/adicionar', function (req, res) {
+    var form = new formidable.IncomingForm();
+    form.parse(req, (err, fields, files) => {
+        if (err) throw err;
+        var oldpath = files.imagem[0].filepath;
+        var ext = path.extname(files.imagem[0].originalFilename)
+        var nomeimg = files.imagem[0].newFilename + ext
+        var newpath = path.join(__dirname, 'public/upload/lista/', nomeimg);
+        fs.rename(oldpath, newpath, function (err) {
+            if (err) throw err;
+        });
+        var sql = "INSERT INTO lista (nome, descricao, imagem) VALUES ?";
+        var values = [[fields['nome'][0], fields['descricao'][0], nomeimg]];
+        con.query(sql, [values], function (err, result) {
+            if (err) throw err;
+            console.log("Numero de registros inseridos: " + result.affectedRows);
+            res.redirect('/');
+        });
+    });
+});
+
+
+
 
 app.listen(3300, function () {
     console.log("Servidor Escutando na porta 3300");

@@ -3,6 +3,7 @@
 
 <head>
     <%- include('templates/head'); %>
+    <link rel="stylesheet" href="/style/style.css">
 </head>
 
 <body class="min-h-screen">
@@ -133,7 +134,7 @@
                     <h3 class="font-display text-2xl font-bold">Entrar</h3>
                 </div>
 
-                <form id="login-form" method="post" action="back/" class="flex flex-col gap-4">
+                <form id="login-form" method="post" action="\login" class="flex flex-col gap-4">
                     <label class="text-sm font-medium">
                         E-mail
                         <input type="email" required placeholder="voce@email.com"
@@ -158,7 +159,7 @@
                         style="background: var(--pokedex-red)">
                         <i class="fa-solid fa-right-to-bracket"></i> Entrar
                     </button>
-                    <a href="usuario/cadastro.ejs" class="text-xs text-center underline"
+                    <a href="\cadastro" class="text-xs text-center underline"
                         style="color: var(--text-soft)">Não tem? Faça seu cadastro!</a>
                 </form>
             </div>

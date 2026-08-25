@@ -142,22 +142,6 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
     }));
 })();
 
-/* =====================================================
-   Modal de login (ilustrativo)
-   ===================================================== */
-(function initLoginModal() {
-    const backdrop = document.getElementById("login-backdrop");
-    const openBtns = document.querySelectorAll("[data-open-login]");
-    const closeBtn = document.getElementById("login-close");
-    const form = document.getElementById("login-form");
-
-    openBtns.forEach(b => b.addEventListener("click", () => backdrop.classList.add("open")));
-    closeBtn?.addEventListener("click", () => backdrop.classList.remove("open"));
-    backdrop?.addEventListener("click", (e) => { if (e.target === backdrop) backdrop.classList.remove("open"); });
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape") backdrop?.classList.remove("open"); });
-
-    
-})();
 
  const campoSenha = document.getElementById('senha');
     const btnToggle = document.getElementById('btn-toggle');
